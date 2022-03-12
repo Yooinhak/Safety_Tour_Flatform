@@ -1,5 +1,5 @@
 import React from "react";
-import {  Text, SafeAreaView, StyleSheet, Pressable, ScrollView, TouchableOpacity } from "react-native";
+import {  Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import CommonView from "./Common/CommonView";
 
 function Settings({goHomePress}) {
@@ -10,9 +10,9 @@ function Settings({goHomePress}) {
             <ScrollView style={styles.mainContainer}>
                 <Text>Settings View</Text>
             </ScrollView>
-            <Pressable onPress={goHomePress} style={styles.goHomeBtn}>
+            <TouchableOpacity onPress={goHomePress} style={styles.goHomeBtn}>
                 <Text>홈</Text>
-            </Pressable>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }

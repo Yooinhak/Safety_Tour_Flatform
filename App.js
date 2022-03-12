@@ -8,12 +8,16 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import HomeMain from './src/screens/HomeMain'
 import TourList from './src/screens/TourList'
 import Settings from './src/screens/Settings'
+import LoginScreen from './src/screens/LoginScreen'
 
 function HomeScreen({navigation}) {
   return(
     <HomeMain 
-      goPress={() => {
+      goTourPress={() => {
         navigation.navigate("TourS")
+      }}
+      goLoginPress={() => {
+        navigation.navigate("login")
       }}
     />
   )
@@ -23,7 +27,7 @@ function TourListScreen({navigation}) {
   return (
     <TourList 
       goHomePress={() => {
-        navigation.navigate('Home')
+        navigation.navigate("Home")
       }}
     />
   )
@@ -33,7 +37,17 @@ function SettimgsScreen({navigation}) {
   return (
     <Settings 
       goHomePress={() => {
-        navigation.navigate('Home')
+        navigation.navigate("Home")
+      }}
+    />
+  )
+}
+
+function LoginScreenView({navigation}) {
+  return (
+    <LoginScreen 
+      goHomePress={() => {
+        navigation.navigate("Home")
       }}
     />
   )
@@ -81,6 +95,7 @@ const App = () => {
             component={HomeScreen}
           />
           <Stack.Screen name="TourS" component={TourListTabScreen} />
+          <Stack.Screen name="login" component={LoginScreenView} />
         </Stack.Navigator>
       </NavigationContainer>
     )

@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, SafeAreaView, Text, Pressable } from 'react-native'
+import { View, StyleSheet, ScrollView, SafeAreaView, Text, TouchableOpacity } from 'react-native'
 import RNPickerSelect from "react-native-picker-select";
+import TouchHistoryMath from "react-native/Libraries/Interaction/TouchHistoryMath";
 import CommonView from "./Common/CommonView";
 
-function HomeMain({goPress}) {
+function HomeMain({goTourPress, goLoginPress}) {
     return (
         <SafeAreaView style={styles.holeContainer}>
             <CommonView />
@@ -44,15 +45,23 @@ function HomeMain({goPress}) {
                             ]}
                         />
                     </View>
-                    <Pressable 
-                        onPress={goPress}
+                    <TouchableOpacity 
+                        onPress={goTourPress}
                         style={styles.btn}
                     >
                         <Text>선택</Text>
-                    </Pressable>
+                    </TouchableOpacity>
+
                     <View style={styles.line} />
                 </View>
             </ScrollView>
+
+            <TouchableOpacity
+                onPress={goLoginPress}
+                style={styles.loginBtn}
+            >
+                <Text>Login</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
@@ -90,6 +99,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderRadius: 20,
         backgroundColor: '#e1f0e7'
+    },
+    loginBtn: {
+        position: 'absolute',
+        left: 5,
+        bottom: 40,
+        paddingVertical: 8,
+        paddingHorizontal: 15,
+        borderRadius: 20,
+        backgroundColor: 'skyblue'
     }
 })
 

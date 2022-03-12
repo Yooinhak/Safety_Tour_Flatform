@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import CommonView from "./Common/CommonView";
 
 function TourList({goHomePress}) {
@@ -15,9 +14,9 @@ function TourList({goHomePress}) {
                     <Text>이곳을 누르세요</Text>
                 </TouchableOpacity>
             </ScrollView>
-            <Pressable onPress={goHomePress} style={styles.goHomeBtn}>
+            <TouchableOpacity onPress={goHomePress} style={styles.goHomeBtn}>
                 <Text>홈</Text>
-            </Pressable>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
