@@ -5,13 +5,11 @@ import {  View, Text, SafeAreaView, StyleSheet, TextInput, TouchableOpacity } fr
 function LoginScreen({goHomePress}) {
     return (
 
-        
-
         <SafeAreaView style={styles.holeContainer}>
             <View>
                 <TextInput
                     style={styles.input}
-                    placeholder="ID"
+                    placeholder="Email"
                 />
                 <TextInput
                     style={styles.input}

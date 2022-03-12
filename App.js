@@ -102,3 +102,5 @@ const App = () => {
 }
 
 export default App;
+
+// http://13.125.33.210:3000/ 백엔드
