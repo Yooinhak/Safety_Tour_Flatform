@@ -9,8 +9,8 @@ function TownSelector({currentCity, onChange}) {
 
     local.city.forEach(function(val, i) {
         if(val === currentCity) {
-            local.town[i].forEach(function(v, j) {
-                item.push({label: v, value: j})
+            local.town[i].forEach(function(v) {
+                item.push({label: v, value: v})
             })
         }
     })
@@ -19,7 +19,7 @@ function TownSelector({currentCity, onChange}) {
         <View style={styles.eachSelector}>
             <Text style={{
                 textAlign: "center", 
-                ontSize: 18, 
+                fontSize: 18, 
                 color: "#d2de95", 
                 width: "20%"
             }}>시/군/구</Text>

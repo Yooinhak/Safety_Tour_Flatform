@@ -1,19 +1,46 @@
-import React from "react";
-import { Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import React, {useState ,useEffect} from "react";
+import { Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
 import CommonView from "./Common/CommonView";
+import axios from "axios";
 
-function TourList({goHomePress}) {
+function TourListSetting({currentLocal}) {
+
+    const [lists, setLists] = useState([])
+
+    useEffect(() => {
+        
+        axios.post("http://13.125.33.210:3000/tour", {
+            "city": currentLocal.city,
+            "town": currentLocal.town
+        })
+        .then((response) => {
+            setLists(response.data.tour)
+        })
+        .catch((error) => console.log(error.response.data))
+    }, [])
+
+    return (
+        <ScrollView style={styles.mainContainer}>
+
+
+            {lists.map( list => (
+                <TouchableOpacity key={list.id} style={styles.btn}>
+                    <Text>{list.name}</Text>
+                </TouchableOpacity>
+            ))}
+        </ScrollView>
+    )
+
+}
+
+function TourList({goHomePress, currentLocal}) {
+
     return (
         <SafeAreaView style={styles.holeContainer}>
             <CommonView />
 
-            <ScrollView style={styles.mainContainer}>
-                <TouchableOpacity
-                    style={styles.btn}
-                >
-                    <Text>이곳을 누르세요</Text>
-                </TouchableOpacity>
-            </ScrollView>
+            <TourListSetting currentLocal={currentLocal}/>
+
             <TouchableOpacity onPress={goHomePress} style={styles.goHomeBtn}>
                 <Text>홈</Text>
             </TouchableOpacity>

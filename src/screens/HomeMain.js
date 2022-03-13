@@ -4,7 +4,7 @@ import CommonView from "./Common/CommonView";
 import CitySelector from "./CitySelector";
 import TownSelector from "./TownSelector";
 
-function HomeMain({goTourPress, goLoginPress}) {
+function HomeMain({goTourPress, goLoginPress, currentLocal}) {
 
     const [ currentCity, setCity ] = useState("")
     const [ currentTown, setTown ] = useState("")
@@ -15,6 +15,8 @@ function HomeMain({goTourPress, goLoginPress}) {
 
     const onTownChange = (value) => {
         setTown(value)
+        currentLocal.city = currentCity
+        currentLocal.town = value
     }
 
     return (
