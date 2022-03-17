@@ -41,6 +41,7 @@ function TourListScreen({navigation}) {
 }
 
 function EachTourListScreen({navigation, route}) {
+
   return (
     <EachTourList 
       id={route.params.id}

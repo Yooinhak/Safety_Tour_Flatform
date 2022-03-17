@@ -1,9 +1,14 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+# React Native Maps dependencies 
+rn_maps_path = '../node_modules/react-native-maps'
 
 platform :ios, '11.0'
 
 target 'senior_app' do
+  pod 'react-native-google-maps', :path => rn_maps_path 
+  pod 'GoogleMaps' 
+  pod 'Google-Maps-iOS-Utils'
   config = use_native_modules!
 
   use_react_native!(

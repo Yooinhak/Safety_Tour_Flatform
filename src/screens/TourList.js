@@ -10,7 +10,7 @@ function TourListSetting({currentLocal, navigation }) {
     const onTourPress = (id) => {
         navigation.navigate("EachTour", id = {id})
     }
-
+ 
     useEffect(() => {
         
         axios.post("http://13.125.33.210:3000/tour", {
@@ -21,7 +21,7 @@ function TourListSetting({currentLocal, navigation }) {
             setLists(response.data.tour)
         })
         .catch((error) => console.log(error.response.data))
-    }, [])
+    }, [currentLocal])
 
     return (
         <ScrollView style={styles.mainContainer}>

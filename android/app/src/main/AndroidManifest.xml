@@ -11,6 +11,10 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme">
 
+      <!-- You will also only need to add this uses-libray tag --> 
+      <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAd7DHvDUik3SXeG6qzp10G-0t9hw5aqV8"/>
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
       <activity
         android:name=".SplashActivity"
         android:theme="@style/SplashTheme"
