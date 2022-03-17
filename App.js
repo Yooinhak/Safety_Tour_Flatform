@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -6,13 +6,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
 import HomeMain from './src/screens/HomeMain'
 import TourList from './src/screens/TourList'
-import Settings from './src/screens/Settings'
+import EachTourList from './src/screens/EachTourList'
 import LoginScreen from './src/screens/LoginScreen'
+console.reportErrorsAsExceptions = false;
 
 const currentLocal = {
   city: "",
   town: ""
 }
+
 
 function HomeScreen({navigation}) {
   return(
@@ -33,19 +35,16 @@ function TourListScreen({navigation}) {
   return (
     <TourList 
       currentLocal={currentLocal}
-      goHomePress={() => {
-        navigation.navigate("Home")
-      }}
+      navigation={navigation}
     />
   )
 }
 
-function SettimgsScreen({navigation}) {
+function EachTourListScreen({navigation, route}) {
   return (
-    <Settings 
-      goHomePress={() => {
-        navigation.navigate("Home")
-      }}
+    <EachTourList 
+      id={route.params.id}
+      navigation={navigation}
     />
   )
 }
@@ -71,8 +70,8 @@ function TourListTabScreen() {
 
         if (route.name === 'Tour') {
           iconName = 'list'
-        } else if (route.name === 'Settings') {
-          iconName = focused ? 'settings' : 'settings-outline'
+        } else if (route.name === 'EachTour') {
+          iconName = focused ? 'information-circle' : 'information-circle'
         }
 
         return <Icon name={iconName} size={size} color={color} />
@@ -82,7 +81,7 @@ function TourListTabScreen() {
       headerShown: false
     })}>
       <Tab.Screen name="Tour" component={TourListScreen} />
-      <Tab.Screen name="Settings" component={SettimgsScreen} />
+      <Tab.Screen name="EachTour" component={EachTourListScreen} />
     </Tab.Navigator>
   )
 }

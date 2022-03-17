@@ -3,9 +3,13 @@ import { Text, SafeAreaView, StyleSheet, ScrollView, TouchableOpacity, Alert } f
 import CommonView from "./Common/CommonView";
 import axios from "axios";
 
-function TourListSetting({currentLocal}) {
+function TourListSetting({currentLocal, navigation }) {
 
     const [lists, setLists] = useState([])
+
+    const onTourPress = (id) => {
+        navigation.navigate("EachTour", id = {id})
+    }
 
     useEffect(() => {
         
@@ -24,7 +28,11 @@ function TourListSetting({currentLocal}) {
 
 
             {lists.map( list => (
-                <TouchableOpacity key={list.id} style={styles.btn}>
+                <TouchableOpacity 
+                    key={list.id} 
+                    style={styles.btn}
+                    onPress={() => onTourPress(list.id)}
+                >
                     <Text>{list.name}</Text>
                 </TouchableOpacity>
             ))}
@@ -33,15 +41,23 @@ function TourListSetting({currentLocal}) {
 
 }
 
-function TourList({goHomePress, currentLocal}) {
+function TourList({ currentLocal, navigation }) {
 
     return (
         <SafeAreaView style={styles.holeContainer}>
             <CommonView />
 
-            <TourListSetting currentLocal={currentLocal}/>
+            <TourListSetting 
+                currentLocal={currentLocal}
+                navigation={navigation}
+            />
 
-            <TouchableOpacity onPress={goHomePress} style={styles.goHomeBtn}>
+            <TouchableOpacity 
+                onPress={() => {
+                    navigation.navigate("Home")
+                }} 
+                style={styles.goHomeBtn}
+            >
                 <Text>홈</Text>
             </TouchableOpacity>
         </SafeAreaView>
