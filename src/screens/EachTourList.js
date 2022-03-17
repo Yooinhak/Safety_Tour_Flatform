@@ -8,7 +8,12 @@ import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps'
 function EachTourList ({navigation, id}) {
 
     const [item, setItem] = useState({})
-    const [region, setRegion] = useState({})
+    const [region, setRegion] = useState({
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    })
 
     useEffect(() => {
         
@@ -39,8 +44,9 @@ function EachTourList ({navigation, id}) {
                     <MapView 
                         style={{ flex: 1 }} 
                         provider={PROVIDER_GOOGLE} 
-                        initialRegion={region}
+                        region={region}
                     > 
+                    <Marker coordinate={region} />
                     </MapView>
                 </View>
 
