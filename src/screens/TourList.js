@@ -11,16 +11,27 @@ function TourListSetting({currentLocal, navigation }) {
         navigation.navigate("EachTour", id = {id})
     }
  
-    useEffect(() => {
+    // useEffect(() => {
         
-        axios.post("http://13.125.33.210:3000/tour", {
-            "city": currentLocal.city,
-            "town": currentLocal.town
-        })
-        .then((response) => {
-            setLists(response.data.tour)
-        })
-        .catch((error) => console.log(error.response.data))
+    //     axios.post("http://13.125.33.210:3000/tour", {
+    //         "city": currentLocal.city,
+    //         "town": currentLocal.town
+    //     })
+    //     .then((response) => {
+    //         setLists(response.data.tour)
+    //     })
+    //     .catch((error) => console.log(error.response.data))
+    // }, [currentLocal])
+
+    useEffect(() => {
+        async function fetchData()  {
+            const result = await axios.post('http://13.125.33.210:3000/tour', {
+                "city": currentLocal.city,
+                "town": currentLocal.town
+            })
+            setLists(result.data.tour)
+        }
+        fetchData()
     }, [currentLocal])
 
     return (

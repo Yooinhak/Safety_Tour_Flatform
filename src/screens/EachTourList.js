@@ -4,6 +4,7 @@ import axios from "axios";
 import CommonView from "./Common/CommonView";
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps'
 import KakaoService from "./Service/KakaoService"
+import SKService from "./Service/SkService";
 
 function EachTourList ({navigation, id}) {
 
@@ -15,10 +16,24 @@ function EachTourList ({navigation, id}) {
         longitudeDelta: 0.0421,
     })
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        axios.get(`http://13.125.33.210:3000/tour/${id}`)
-        .then((response) => {
+    //     axios.get(`http://13.125.33.210:3000/tour/${id}`)
+    //     .then((response) => {
+    //         setItem(response.data.tourDetail)
+    //         setRegion({
+    //             latitude: response.data.tourDetail.geo_x,
+    //             longitude: response.data.tourDetail.geo_y,
+    //             latitudeDelta: 0.0922,
+    //             longitudeDelta: 0.0421
+    //         })
+    //     })
+    //     .catch((error) => console.log(error.response.data))
+    // },[id])
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await axios.get(`http://13.125.33.210:3000/tour/${id}`)
             setItem(response.data.tourDetail)
             setRegion({
                 latitude: response.data.tourDetail.geo_x,
@@ -26,11 +41,10 @@ function EachTourList ({navigation, id}) {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421
             })
-        })
-        .catch((error) => console.log(error.response.data))
-    },[id])
+        }
+        fetchData()
+    }, [id])
 
-    const locCode = KakaoService(item.geo_y, item.geo_x)
     
     return (
         <SafeAreaView style={styles.holeContainer}>
@@ -42,15 +56,18 @@ function EachTourList ({navigation, id}) {
                 <Text>{item.name}</Text>
                 <Text>관광지 정보 : {item.info}</Text>
                 <Text>주소 : {item.address}</Text>
-                <Text>{locCode}</Text>
+                <SKService 
+                    locCode={KakaoService(item.geo_y, item.geo_x)}
+                    region={region} 
+                />
 
                 <View style={styles.MapViewContainer}> 
-                    <MapView 
-                        style={{ flex: 1 }} 
+                    <MapView
+                        style={{ flex: 1 }}
                         provider={PROVIDER_GOOGLE} 
                         region={region}
                         rotateEnabled={false}
-                    > 
+                    >
                     <Marker coordinate={region} />
                     </MapView>
                 </View>
@@ -61,7 +78,7 @@ function EachTourList ({navigation, id}) {
             <TouchableOpacity 
                 onPress={() => {
                     navigation.navigate("Home")
-                }} 
+                }}
                 style={styles.goHomeBtn}
             >
                 <Text>홈</Text>
