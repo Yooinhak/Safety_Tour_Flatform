@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 
+
+//상단 공통 이미지
 function CommonView() {
-
-
 
     return (
         <View style={styles.topContainer}>

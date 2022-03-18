@@ -1,8 +1,10 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
 import RNPickerSelect from "react-native-picker-select"
-import local from './local.json'
+import local from './local.json' //아이템 정보 불러오기
 
+
+//메인 화면 시/군/구 picker component
 function TownSelector({currentCity, onChange}) {
 
     const item = []

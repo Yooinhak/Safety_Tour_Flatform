@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import {Alert} from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -42,12 +43,22 @@ function TourListScreen({navigation}) {
 
 function EachTourListScreen({navigation, route}) {
 
-  return (
-    <EachTourList 
-      id={route.params.id}
-      navigation={navigation}
-    />
-  )
+  try {
+    return (
+      <EachTourList 
+        id={route.params.id}
+        navigation={navigation}
+      />
+    )
+  } catch (e) {
+    Alert.alert("관광지를 먼저 선택해주세요.")
+    return (
+      <TourList 
+        currentLocal={currentLocal}
+        navigation={navigation}
+      />
+    )
+  }
 }
 
 function LoginScreenView({navigation}) {
