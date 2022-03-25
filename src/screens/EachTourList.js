@@ -4,7 +4,8 @@ import axios from "axios";
 import CommonView from "./Common/CommonView";
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps'
 import KakaoService from "./Service/KakaoService"
-import SKService from "./Service/SkService";
+import SKService from "./Service/SkService"
+import ModalScreen from "./ModalScreen"
 
 function EachTourList ({navigation, id}) {
 
@@ -15,21 +16,20 @@ function EachTourList ({navigation, id}) {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     })
+    const [modalOn, setModalOn] = useState(false)
+    const [mapOn, setMapOn] = useState(false)
 
-    // useEffect(() => {
-        
-    //     axios.get(`http://13.125.33.210:3000/tour/${id}`)
-    //     .then((response) => {
-    //         setItem(response.data.tourDetail)
-    //         setRegion({
-    //             latitude: response.data.tourDetail.geo_x,
-    //             longitude: response.data.tourDetail.geo_y,
-    //             latitudeDelta: 0.0922,
-    //             longitudeDelta: 0.0421
-    //         })
-    //     })
-    //     .catch((error) => console.log(error.response.data))
-    // },[id])
+    const onModal = () => {
+        setModalOn(true)
+    }
+
+    const offModal = () => {
+        setModalOn(false)
+    }
+
+    const onMapOn = () => {
+        setMapOn(!mapOn)
+    }
 
     useEffect(() => {
         async function fetchData() {
@@ -45,38 +45,56 @@ function EachTourList ({navigation, id}) {
         fetchData()
     }, [id])
 
+    useEffect(() => {
+        return () => setModalOn(false)
+    }, [])
+
+
     
     return (
+        <>
         <SafeAreaView style={styles.holeContainer}>
 
             <CommonView />
 
             <ScrollView style={styles.mainContainer}>
-
-                <Text>{item.name}</Text>
-                <Text>관광지 정보 : {item.info}</Text>
-                <Text>주소 : {item.address}</Text>
+                <View style={styles.eachBox}>
+                    <Text style={styles.eachText}>{item.name}</Text>
+                </View>
+                <View style={styles.eachBox}>
+                    <Text style={styles.eachText}>정보 : {item.info}</Text>
+                </View>
+                <View style={styles.eachBox}>
+                    <Text style={styles.eachText}> 시설 정보 : {item.facilities}</Text>
+                </View>
                 <SKService 
                     locCode={KakaoService(item.geo_y, item.geo_x)}
                     region={region} 
+                    onModal={onModal}
                 />
-
+            
                 <View style={styles.MapViewContainer}> 
-                    <MapView
+                    <TouchableOpacity style={styles.clickBox} onPress={onMapOn}>
+                        <Text>지도 보기</Text>
+                    </TouchableOpacity>
+                    {mapOn ? <MapView
+                        initialRegion={region}
                         style={{ flex: 1 }}
                         provider={PROVIDER_GOOGLE} 
                         region={region}
                         rotateEnabled={false}
                     >
                     <Marker coordinate={region} />
-                    </MapView>
-                </View>
+                    </MapView> : <></>}
+                    <Text> {item.addressDetail}</Text>
+                </View> 
 
 
             </ScrollView>
 
             <TouchableOpacity 
                 onPress={() => {
+                    setMapOn(false)
                     navigation.navigate("Home")
                 }}
                 style={styles.goHomeBtn}
@@ -84,6 +102,8 @@ function EachTourList ({navigation, id}) {
                 <Text>홈</Text>
             </TouchableOpacity>
         </SafeAreaView>
+        {modalOn ? <ModalScreen offModal={offModal} /> : <></>}
+        </>
     )
 }
 
@@ -93,17 +113,27 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     mainContainer: {
-        flexDirection: 'column',
         backgroundColor: '#ffffff',
         height: '85%',
         width: '90%',
-        marginLeft: '5%'
+        marginLeft: '5%',
     },
     MapViewContainer: {
-        width: "90%",
+        // width: "90%",
         height: 150, 
-        marginLeft: "5%", 
-        marginVertical: "5%"
+        marginVertical: 5,
+        marginHorizontal: 5,
+        borderWidth: 1,
+        borderColor: '#e4baba',
+    },
+    eachBox: {
+        borderWidth: 1,
+        marginHorizontal: 5,
+        marginVertical: 5,
+        alignItems: 'center',
+        padding: 10,
+        borderRadius: 5,
+        borderColor: '#e4baba'
     },
     goHomeBtn: {
         position: 'absolute',
@@ -121,6 +151,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    eachText: {
+        fontSize: 20,
+    },
+    clickBox: {
+        borderWidth: 1,
+        marginHorizontal: 5,
+        borderRadius: 5,
+        width: "18%"
+    }
 })
 
 export default EachTourList

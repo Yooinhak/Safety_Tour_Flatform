@@ -37,8 +37,8 @@ export default function KakaoService(x, y) {
             })
         }).catch((e) => {
             console.log(e)
-            return 0
-        })
+            return 4571040024
+        },[x, y])
 
     return locCode
 }
