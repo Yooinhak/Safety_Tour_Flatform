@@ -6,7 +6,7 @@ rn_maps_path = '../node_modules/react-native-maps'
 platform :ios, '11.0'
 
 target 'senior_app' do
-  pod 'react-native-google-maps', :path => rn_maps_path 
+  pod 'react-native-google-maps', :path => rn_maps_path
   pod 'GoogleMaps' 
   pod 'Google-Maps-iOS-Utils'
   config = use_native_modules!

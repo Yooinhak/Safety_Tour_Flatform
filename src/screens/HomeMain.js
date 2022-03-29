@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { View, StyleSheet, ScrollView, SafeAreaView, Text, TouchableOpacity, Alert } from 'react-native'
+import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity } from 'react-native'
 import axios from 'axios'
 import CommonView from "./Common/CommonView";
 import CitySelector from "./CitySelector";
