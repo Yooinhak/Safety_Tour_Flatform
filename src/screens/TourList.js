@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react'
 import {
   Text,
   SafeAreaView,
@@ -6,28 +6,27 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-} from 'react-native';
-import CommonView from './Common/CommonView';
-import axios from 'axios';
+} from 'react-native'
+import CommonView from './Common/CommonView'
+import axios from 'axios'
 
 function TourListSetting({currentLocal, navigation}) {
-  const [lists, setLists] = useState([]);
+  const [lists, setLists] = useState([])
 
   const onTourPress = id => {
-    navigation.navigate('EachTour', (id = {id}));
-  };
+    navigation.navigate('EachTour', (id = {id}))
+  }
 
   useEffect(() => {
     async function fetchData() {
       const result = await axios.post('http://3.38.244.119:3000/tour', {
         city: currentLocal.city,
         town: currentLocal.town,
-      });
-      setLists(result.data.tour);
-      console.log('setList sucess');
+      })
+      setLists(result.data.tour)
     }
-    fetchData();
-  }, [currentLocal]);
+    fetchData()
+  }, [currentLocal])
 
   return (
     <ScrollView style={styles.mainContainer}>
@@ -40,7 +39,7 @@ function TourListSetting({currentLocal, navigation}) {
         </TouchableOpacity>
       ))}
     </ScrollView>
-  );
+  )
 }
 
 function TourList({currentLocal, navigation}) {
@@ -52,13 +51,13 @@ function TourList({currentLocal, navigation}) {
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.navigate('Home')
         }}
         style={styles.goHomeBtn}>
         <Text>홈</Text>
       </TouchableOpacity>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -88,6 +87,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: 'skyblue',
   },
-});
+})
 
-export default TourList;
+export default TourList

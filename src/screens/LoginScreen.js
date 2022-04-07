@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios'
+import React, {useState} from 'react'
 import {
   View,
   Text,
@@ -6,25 +7,74 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-} from 'react-native';
+  Alert,
+} from 'react-native'
 
 function LoginScreen({navigation}) {
+  const [inputUser, setInputUser] = useState({
+    email: '',
+    passwd: '',
+  })
+
+  const {email, passwd} = inputUser
+
   const goHomePress = () => {
-    navigation.navigate('Home');
-  };
+    navigation.navigate('Home')
+  }
 
   const goSignUpPress = () => {
-    navigation.navigate('signUp');
-  };
+    navigation.navigate('signUp')
+  }
+
+  const onChange = (keyValue, e) => {
+    const {text} = e.nativeEvent
+    setInputUser({
+      ...inputUser,
+      [keyValue]: text,
+    })
+  }
+
+  const handleLogin = async () => {
+    await axios
+      .post('http://3.38.244.119:3000/auth/login', {
+        email: inputUser.email,
+        passwd: inputUser.passwd,
+      })
+      .then(response => {
+        Alert.alert('로그인 되었습니다!')
+        setInputUser({
+          email: '',
+          passwd: '',
+        })
+        navigation.navigate('loginHome', response.data)
+      })
+      .catch(e => {
+        Alert.alert(e.response.data.message)
+        setInputUser({
+          email: '',
+          passwd: '',
+        })
+      })
+  }
 
   return (
     <SafeAreaView style={styles.holeContainer}>
       <View>
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput style={styles.input} placeholder="password" />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChange={e => onChange('email', e)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="password"
+          value={passwd}
+          onChange={e => onChange('passwd', e)}
+        />
       </View>
 
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
         <Text>로그인</Text>
       </TouchableOpacity>
 
@@ -32,22 +82,13 @@ function LoginScreen({navigation}) {
         <TouchableOpacity onPress={goSignUpPress}>
           <Text style={styles.fontModify}>회원가입</Text>
         </TouchableOpacity>
-        <View style={styles.searchView}>
-          <TouchableOpacity>
-            <Text style={styles.fontModify}>아이디 찾기</Text>
-          </TouchableOpacity>
-          <View style={styles.sep} />
-          <TouchableOpacity>
-            <Text style={styles.fontModify}>비밀번호 찾기</Text>
-          </TouchableOpacity>
-        </View>
       </View>
 
       <TouchableOpacity onPress={goHomePress} style={styles.goHomeBtn}>
         <Text>홈</Text>
       </TouchableOpacity>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -83,19 +124,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
   },
-  searchView: {
-    marginVertical: 10,
-    flexDirection: 'row',
-  },
   fontModify: {
     fontSize: 13,
   },
-  sep: {
-    height: 17,
-    width: 2,
-    marginHorizontal: 5,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-});
+})
 
-export default LoginScreen;
+export default LoginScreen

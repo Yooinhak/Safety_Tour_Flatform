@@ -1,36 +1,96 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react'
 import {
   View,
   StyleSheet,
   SafeAreaView,
   Text,
+  ScrollView,
   TouchableOpacity,
-} from 'react-native';
-import axios from 'axios';
-import CommonView from './Common/CommonView';
-import CitySelector from './CitySelector';
-import TownSelector from './TownSelector';
+  Alert,
+} from 'react-native'
+import axios from 'axios'
+import CommonView from './Common/CommonView'
+import CitySelector from './CitySelector'
+import TownSelector from './TownSelector'
 
-const SK_API_KEY = 'l7xxa74a5d7d8724435da2db516737edde0d';
+const SK_API_KEY = 'l7xxa74a5d7d8724435da2db516737edde0d'
 
-function HomeMain({goTourPress, goLoginPress, currentLocal}) {
-  const [currentCity, setCity] = useState('');
-  const [currentTown, setTown] = useState('');
+function LikeList({navigation, currentLocal, currentUser}) {
+  const [likesList, setLikesList] = useState([])
+
+  useEffect(() => {
+    axios
+      .get(`http://3.38.244.119:3000/like/`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+      })
+      .then(response => {
+        setLikesList(response.data.getLikes)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+    return () => {}
+  }, [currentUser])
+
+  const goLikeTour = list => {
+    const [city, town] = list.tour.providerName.split(' ')
+    currentLocal.city = city
+    currentLocal.town = town
+    navigation.navigate('EachTour', {id: list.tour.id})
+  }
+
+  return (
+    <>
+      {likesList.map(list => (
+        <TouchableOpacity
+          onPress={() => goLikeTour(list)}
+          key={list.tour.id}
+          style={styles.likeBtn}>
+          <Text>
+            {list.tour.name} ({list.tour.providerName})
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </>
+  )
+}
+
+function HomeMain({navigation, currentLocal, currentUser}) {
+  const [currentCity, setCity] = useState('')
+  const [currentTown, setTown] = useState('')
   const [covidNum, setCovidNum] = useState({
     dailyConfirmedCnt: 0,
     totalConfirmedCnt: 0,
     baseDate: 20220101,
-  });
+  })
 
   const onChange = value => {
-    setCity(value);
-  };
+    setCity(value)
+  }
 
   const onTownChange = value => {
-    setTown(value);
-    currentLocal.city = currentCity;
-    currentLocal.town = value;
-  };
+    setTown(value)
+    currentLocal.city = currentCity
+    currentLocal.town = value
+  }
+
+  const goTourPress = () => {
+    if (currentUser.user == 'success') {
+      navigation.navigate('TourS', currentUser)
+    } else {
+      Alert.alert('로그인을 먼저 해주세요.')
+    }
+  }
+
+  const goLoginPress = () => {
+    navigation.navigate('login')
+  }
+
+  const goProfilePress = () => {
+    navigation.navigate('profile', currentUser)
+  }
 
   useEffect(() => {
     axios
@@ -43,19 +103,19 @@ function HomeMain({goTourPress, goLoginPress, currentLocal}) {
         },
       )
       .then(response => {
-        setCovidNum(response.data.data);
+        setCovidNum(response.data.data)
       })
       .catch(e => {
-        console.log(e);
-      });
-    return () => {};
-  }, []);
+        console.log(e)
+      })
+    return () => {}
+  }, [])
 
   return (
     <SafeAreaView style={styles.holeContainer}>
       <CommonView />
 
-      <View style={styles.mainContainer}>
+      <ScrollView style={styles.mainContainer}>
         <View style={styles.selectorContainer}>
           <CitySelector onChange={onChange} />
           <TownSelector currentCity={currentCity} onChange={onTownChange} />
@@ -63,38 +123,63 @@ function HomeMain({goTourPress, goLoginPress, currentLocal}) {
           <TouchableOpacity onPress={goTourPress} style={styles.btn}>
             <Text>선택</Text>
           </TouchableOpacity>
+        </View>
 
-          <View style={styles.line} />
+        <View style={styles.line} />
 
-          <View style={styles.covidInfoContainer}>
-            <View style={styles.covidInfoTitle}>
-              <Text style={{fontSize: 15}}>국내 코로나19 현황</Text>
-              <Text style={{fontSize: 12}}>{covidNum.baseDate} 00:00 기준</Text>
+        {currentUser.user == 'success' ? (
+          <>
+            <View style={styles.favoritesContainer}>
+              <Text style={{marginLeft: '3%'}}>즐겨찾는 관광지</Text>
+              <LikeList
+                navigation={navigation}
+                currentLocal={currentLocal}
+                currentUser={currentUser}
+              />
             </View>
-            <View style={styles.covidDetailInfo}>
-              <View style={styles.covidDetailInside}>
-                <Text style={styles.covidTitleFont}>일일 확진자수</Text>
-                <Text style={styles.covidFont}>
-                  {covidNum.dailyConfirmedCnt.toLocaleString('ko-KR')}
-                </Text>
-              </View>
-              <View style={styles.verticalLine} />
-              <View style={styles.covidDetailInside}>
-                <Text style={styles.covidTitleFont}>누적 확진자수</Text>
-                <Text style={styles.covidFont}>
-                  {covidNum.totalConfirmedCnt.toLocaleString('ko-KR')}
-                </Text>
-              </View>
+
+            <View style={styles.line} />
+          </>
+        ) : (
+          <></>
+        )}
+
+        <View style={styles.covidInfoContainer}>
+          <View style={styles.covidInfoTitle}>
+            <Text style={{fontSize: 15}}>국내 코로나19 현황</Text>
+            <Text style={{fontSize: 12}}>{covidNum.baseDate} 00:00 기준</Text>
+          </View>
+          <View style={styles.covidDetailInfo}>
+            <View style={styles.covidDetailInside}>
+              <Text style={styles.covidTitleFont}>일일 확진자수</Text>
+              <Text style={styles.covidFont}>
+                {covidNum.dailyConfirmedCnt.toLocaleString('ko-KR')}
+              </Text>
+            </View>
+            <View style={styles.verticalLine} />
+            <View style={styles.covidDetailInside}>
+              <Text style={styles.covidTitleFont}>누적 확진자수</Text>
+              <Text style={styles.covidFont}>
+                {covidNum.totalConfirmedCnt.toLocaleString('ko-KR')}
+              </Text>
             </View>
           </View>
         </View>
-      </View>
 
-      <TouchableOpacity onPress={goLoginPress} style={styles.loginBtn}>
-        <Text>Login</Text>
-      </TouchableOpacity>
+        <View style={styles.line} />
+      </ScrollView>
+
+      {currentUser.user !== 'success' ? (
+        <TouchableOpacity onPress={goLoginPress} style={styles.loginBtn}>
+          <Text>Login</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={goProfilePress} style={styles.loginBtn}>
+          <Text>회원정보</Text>
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -104,13 +189,12 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     backgroundColor: '#ffffff',
-    height: '85%',
     width: '90%',
     marginLeft: '5%',
-    justifyContent: 'center',
   },
   selectorContainer: {
     alignItems: 'center',
+    marginTop: '15%',
   },
   btn: {
     paddingVertical: 8,
@@ -128,18 +212,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'skyblue',
   },
   line: {
-    width: '80%',
+    width: '100%',
     height: '1%',
     borderBottomWidth: 1,
-    marginVertical: 50,
+    marginVertical: '10%',
     borderColor: 'rgba(0,0,0,0.5)',
   },
   covidInfoContainer: {
-    marginTop: 30,
     width: '90%',
     borderWidth: 1,
     borderRadius: 5,
     padding: 9,
+    marginLeft: '5%',
   },
   covidInfoTitle: {
     flexDirection: 'row',
@@ -167,6 +251,14 @@ const styles = StyleSheet.create({
   covidDetailInside: {
     alignItems: 'center',
   },
-});
+  likeBtn: {
+    borderWidth: 1,
+    borderColor: '#000000',
+    alignItems: 'center',
+    width: '90%',
+    marginLeft: '5%',
+    marginTop: '3%',
+  },
+})
 
-export default HomeMain;
+export default HomeMain
