@@ -10,10 +10,34 @@ import {
   Alert,
 } from 'react-native'
 
+function ModalScreen({navigation, currentUser}) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.background} />
+      <View style={styles.modal}>
+        <Text style={styles.titleText}>로그인에 성공했습니다!</Text>
+        <TouchableOpacity>
+          <Text style={styles.doneText}>확인</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  )
+}
+
 function LoginScreen({navigation}) {
   const [inputUser, setInputUser] = useState({
     email: '',
     passwd: '',
+  })
+
+  const [currentUser, setCurrentUser] = useState({
+    resUser: {
+      id: '',
+      email: '',
+      name: '',
+    },
+    token: '',
+    user: 'false',
   })
 
   const {email, passwd} = inputUser
@@ -46,7 +70,8 @@ function LoginScreen({navigation}) {
           email: '',
           passwd: '',
         })
-        navigation.navigate('loginHome', response.data)
+        setCurrentUser(response.data)
+        // navigation.navigate('loginHome', response.data)
       })
       .catch(e => {
         Alert.alert(e.response.data.message)
@@ -87,6 +112,7 @@ function LoginScreen({navigation}) {
       <TouchableOpacity onPress={goHomePress} style={styles.goHomeBtn}>
         <Text>홈</Text>
       </TouchableOpacity>
+      <ModalScreen />
     </SafeAreaView>
   )
 }
@@ -126,6 +152,35 @@ const styles = StyleSheet.create({
   },
   fontModify: {
     fontSize: 13,
+  },
+  container: {
+    position: 'absolute',
+    height: '115%',
+    width: '100%',
+    backgroundColor: 'transparent',
+  },
+  background: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modal: {
+    marginHorizontal: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: '95%',
+    backgroundColor: 'white',
+    padding: 10,
+  },
+  doneText: {
+    color: 'rgb(1,123,255)',
+    fontSize: 15,
+    margin: 10,
+  },
+  titleText: {
+    fontSize: 18,
+    margin: 10,
   },
 })
 

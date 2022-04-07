@@ -10,11 +10,11 @@ import {
 import CommonView from './Common/CommonView'
 import axios from 'axios'
 
-function TourListSetting({currentLocal, navigation}) {
+function TourListSetting({currentLocal, navigation, currentUser}) {
   const [lists, setLists] = useState([])
 
   const onTourPress = id => {
-    navigation.navigate('EachTour', (id = {id}))
+    navigation.navigate('EachTour', {id: id, currentUser: currentUser})
   }
 
   useEffect(() => {
@@ -42,16 +42,20 @@ function TourListSetting({currentLocal, navigation}) {
   )
 }
 
-function TourList({currentLocal, navigation}) {
+function TourList({currentLocal, navigation, currentUser}) {
   return (
     <SafeAreaView style={styles.holeContainer}>
       <CommonView />
 
-      <TourListSetting currentLocal={currentLocal} navigation={navigation} />
+      <TourListSetting
+        currentLocal={currentLocal}
+        navigation={navigation}
+        currentUser={currentUser}
+      />
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('Home')
+          navigation.navigate('loginHome', currentUser)
         }}
         style={styles.goHomeBtn}>
         <Text>홈</Text>

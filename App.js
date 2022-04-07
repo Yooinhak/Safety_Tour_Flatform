@@ -49,7 +49,6 @@ function LoginHomeScreen({navigation, route}) {
 }
 
 function TourListScreen({navigation, route}) {
-  console.log(route.params)
   return (
     <TourList
       currentLocal={currentLocal}
@@ -61,7 +60,13 @@ function TourListScreen({navigation, route}) {
 
 function EachTourListScreen({navigation, route}) {
   try {
-    return <EachTourList id={route.params.id} navigation={navigation} />
+    return (
+      <EachTourList
+        id={route.params.id}
+        navigation={navigation}
+        currentUser={route.params.currentUser}
+      />
+    )
   } catch (e) {
     Alert.alert('관광지를 먼저 선택해주세요.')
     return <TourList currentLocal={currentLocal} navigation={navigation} />
@@ -82,7 +87,8 @@ function ProfileScreen({navigation, route}) {
 
 const Tab = createBottomTabNavigator()
 
-function TourListTabScreen() {
+function TourListTabScreen({route}) {
+  const currentUser = route.params
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -101,7 +107,11 @@ function TourListTabScreen() {
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
       })}>
-      <Tab.Screen name="Tour" component={TourListScreen} />
+      <Tab.Screen
+        name="Tour"
+        component={TourListScreen}
+        initialParams={currentUser}
+      />
       <Tab.Screen name="EachTour" component={EachTourListScreen} />
     </Tab.Navigator>
   )

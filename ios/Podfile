@@ -5,9 +5,18 @@ rn_maps_path = '../node_modules/react-native-maps'
 
 platform :ios, '11.0'
 
+project 'senior_app',
+        'Debug' => :debug,
+        'Release' => :release,
+        'Local.Debug' => :debug,
+        'Local.Release' => :release,
+        'Staging.Debug' => :debug,
+        'Staging.Release' => :release
+
+
 target 'senior_app' do
   pod 'react-native-google-maps', :path => rn_maps_path
-  pod 'GoogleMaps' 
+  pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
   config = use_native_modules!
 

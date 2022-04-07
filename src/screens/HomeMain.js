@@ -38,7 +38,10 @@ function LikeList({navigation, currentLocal, currentUser}) {
     const [city, town] = list.tour.providerName.split(' ')
     currentLocal.city = city
     currentLocal.town = town
-    navigation.navigate('EachTour', {id: list.tour.id})
+    navigation.navigate('EachTour', {
+      id: list.tour.id,
+      currentUser: currentUser,
+    })
   }
 
   return (
