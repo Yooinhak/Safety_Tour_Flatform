@@ -6,13 +6,46 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native'
 import axios from 'axios'
 import CommonView from './Common/CommonView'
+import Icon from 'react-native-vector-icons/Ionicons'
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps'
 import KakaoService from './Service/KakaoService'
 import SKService from './Service/SkService'
 import ModalScreen from './ModalScreen'
+
+function LikeOn({id, currentUser}) {
+  const [likeOn, setLikeOn] = useState('heart-outline')
+
+  useEffect(() => {
+    setLikeOn('heart-outline')
+    axios
+      .get(`http://3.38.244.119:3000/like/`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+      })
+      .then(response => {
+        response.data.getLikes.map(function (like) {
+          like.tour.id == id && setLikeOn('heart')
+        })
+      })
+      .catch(e => {
+        console.log(e)
+      })
+    return () => {}
+  }, [id])
+
+  return (
+    <TouchableOpacity style={{marginLeft: 30}}>
+      <View style={styles.completeCircle}>
+        <Icon name={likeOn} size={30} color="#e71c47" />
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 function EachTourList({navigation, id, currentUser}) {
   const [item, setItem] = useState({})
@@ -63,6 +96,7 @@ function EachTourList({navigation, id, currentUser}) {
         <ScrollView style={styles.mainContainer}>
           <View style={styles.eachBox}>
             <Text style={styles.eachText}>{item.name}</Text>
+            <LikeOn id={id} currentUser={currentUser} />
           </View>
           <View style={styles.eachBox}>
             <Text style={styles.eachText}>정보 : {item.info}</Text>
@@ -137,6 +171,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     borderColor: '#e4baba',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   goHomeBtn: {
     position: 'absolute',

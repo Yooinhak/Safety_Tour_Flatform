@@ -112,7 +112,11 @@ function TourListTabScreen({route}) {
         component={TourListScreen}
         initialParams={currentUser}
       />
-      <Tab.Screen name="EachTour" component={EachTourListScreen} />
+      <Tab.Screen
+        name="EachTour"
+        component={EachTourListScreen}
+        initialParams={currentUser}
+      />
     </Tab.Navigator>
   )
 }

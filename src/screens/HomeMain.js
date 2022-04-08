@@ -15,7 +15,7 @@ import TownSelector from './TownSelector'
 
 const SK_API_KEY = 'l7xxa74a5d7d8724435da2db516737edde0d'
 
-function LikeList({navigation, currentLocal, currentUser}) {
+function LikeList({navigation, currentUser}) {
   const [likesList, setLikesList] = useState([])
 
   useEffect(() => {
@@ -35,9 +35,6 @@ function LikeList({navigation, currentLocal, currentUser}) {
   }, [currentUser])
 
   const goLikeTour = list => {
-    const [city, town] = list.tour.providerName.split(' ')
-    currentLocal.city = city
-    currentLocal.town = town
     navigation.navigate('EachTour', {
       id: list.tour.id,
       currentUser: currentUser,
@@ -134,11 +131,7 @@ function HomeMain({navigation, currentLocal, currentUser}) {
           <>
             <View style={styles.favoritesContainer}>
               <Text style={{marginLeft: '3%'}}>즐겨찾는 관광지</Text>
-              <LikeList
-                navigation={navigation}
-                currentLocal={currentLocal}
-                currentUser={currentUser}
-              />
+              <LikeList navigation={navigation} currentUser={currentUser} />
             </View>
 
             <View style={styles.line} />

@@ -10,13 +10,18 @@ import {
   Alert,
 } from 'react-native'
 
-function ModalScreen({navigation, currentUser}) {
+function ModalScreen({navigation, currentUser, onChangeModal}) {
+  const handlePress = () => {
+    onChangeModal(false)
+    navigation.navigate('loginHome', currentUser)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.background} />
+      <TouchableOpacity onPress={handlePress} style={styles.background} />
       <View style={styles.modal}>
         <Text style={styles.titleText}>로그인에 성공했습니다!</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handlePress}>
           <Text style={styles.doneText}>확인</Text>
         </TouchableOpacity>
       </View>
@@ -40,7 +45,13 @@ function LoginScreen({navigation}) {
     user: 'false',
   })
 
+  const [onModal, setOnModal] = useState(false)
+
   const {email, passwd} = inputUser
+
+  const onChangeModal = on => {
+    setOnModal(on)
+  }
 
   const goHomePress = () => {
     navigation.navigate('Home')
@@ -65,13 +76,12 @@ function LoginScreen({navigation}) {
         passwd: inputUser.passwd,
       })
       .then(response => {
-        Alert.alert('로그인 되었습니다!')
+        setOnModal(true)
         setInputUser({
           email: '',
           passwd: '',
         })
         setCurrentUser(response.data)
-        // navigation.navigate('loginHome', response.data)
       })
       .catch(e => {
         Alert.alert(e.response.data.message)
@@ -112,7 +122,13 @@ function LoginScreen({navigation}) {
       <TouchableOpacity onPress={goHomePress} style={styles.goHomeBtn}>
         <Text>홈</Text>
       </TouchableOpacity>
-      <ModalScreen />
+      {onModal && (
+        <ModalScreen
+          navigation={navigation}
+          currentUser={currentUser}
+          onChangeModal={onChangeModal}
+        />
+      )}
     </SafeAreaView>
   )
 }

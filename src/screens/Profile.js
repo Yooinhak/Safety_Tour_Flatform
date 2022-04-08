@@ -12,11 +12,29 @@ function Profile({navigation, currentUser}) {
     navigation.navigate('loginHome', currentUser)
   }
 
+  const logOutPress = () => {
+    currentUser = {
+      resUser: {
+        id: '',
+        email: '',
+        name: '',
+      },
+      token: '',
+      user: 'false',
+    }
+
+    navigation.navigate('loginHome', currentUser)
+  }
+
   return (
     <SafeAreaView style={styles.holeContainer}>
       <View>
         <Text style={styles.text}>이메일 : {currentUser.resUser.email}</Text>
         <Text style={styles.text}>이름 : {currentUser.resUser.name}</Text>
+
+        <TouchableOpacity onPress={logOutPress} style={styles.logoutBtn}>
+          <Text>로그아웃</Text>
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity onPress={goLoginHomePress} style={styles.goHomeBtn}>
@@ -46,6 +64,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginVertical: 20,
+  },
+  logoutBtn: {
+    paddingVertical: 8,
+    paddingHorizontal: 107,
+    borderRadius: 7,
+    backgroundColor: 'rgba(252, 255, 176, 0.6)',
+    alignItems: 'center',
   },
 })
 
