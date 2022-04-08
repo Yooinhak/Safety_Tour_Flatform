@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  TextInput,
 } from 'react-native'
 import axios from 'axios'
 import CommonView from './Common/CommonView'
@@ -38,12 +39,78 @@ function LikeOn({id, currentUser}) {
     return () => {}
   }, [id])
 
+  const onClick = () => {
+    if (likeOn == 'heart-outline') {
+      axios
+        .get(`http://3.38.244.119:3000/like/${id}`, {
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        })
+        .then(() => {
+          setLikeOn('heart')
+          Alert.alert('즐겨찾기에 등록되었습니다.')
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    } else {
+      axios
+        .delete(`http://3.38.244.119:3000/like/${id}`, {
+          headers: {
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+        })
+        .then(() => {
+          setLikeOn('heart-outline')
+          Alert.alert('즐겨찾기를 해제하였습니다.')
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+  }
+
   return (
-    <TouchableOpacity style={{marginLeft: 30}}>
+    <TouchableOpacity onPress={onClick} style={{marginLeft: 30}}>
       <View style={styles.completeCircle}>
         <Icon name={likeOn} size={30} color="#e71c47" />
       </View>
     </TouchableOpacity>
+  )
+}
+
+function CommentFc({item = [], id, currentUser}) {
+  function LoadComment({list}) {
+    return (
+      <View style={styles.eachCommentContainer}>
+        <Text>{list.comment}</Text>
+        <TouchableOpacity style={{right: 10, position: 'absolute'}}>
+          <View style={styles.completeCircle}>
+            <Icon name="close" size={30} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.commentContainer}>
+      <Text>Comment</Text>
+
+      {item.map(list => (
+        <LoadComment key={list.id} list={list} />
+      ))}
+
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input} placeholder="댓글을 입력해주세요." />
+        <TouchableOpacity style={{marginLeft: 10}}>
+          <View style={styles.completeCircle}>
+            <Icon name="enter" size={30} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
 
@@ -128,6 +195,8 @@ function EachTourList({navigation, id, currentUser}) {
             )}
             <Text> {item.addressDetail}</Text>
           </View>
+
+          <CommentFc item={item.comments} id={id} currentUser={currentUser} />
         </ScrollView>
 
         <TouchableOpacity
@@ -198,6 +267,39 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     borderRadius: 5,
     width: '18%',
+  },
+  commentContainer: {
+    borderWidth: 1,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    padding: 10,
+    borderRadius: 5,
+    borderColor: '#e4baba',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  input: {
+    height: 36,
+    width: '80%',
+    borderWidth: 1,
+    padding: 10,
+    marginVertical: 10,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  eachCommentContainer: {
+    borderWidth: 1,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    padding: 10,
+    borderRadius: 5,
+    borderColor: 'skyblue',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
   },
 })
 
