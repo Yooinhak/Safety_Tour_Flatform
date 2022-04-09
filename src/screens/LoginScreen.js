@@ -106,6 +106,7 @@ function LoginScreen({navigation}) {
           placeholder="password"
           value={passwd}
           onChange={e => onChange('passwd', e)}
+          secureTextEntry
         />
       </View>
 

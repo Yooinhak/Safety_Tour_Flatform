@@ -80,12 +80,31 @@ function LikeOn({id, currentUser}) {
   )
 }
 
-function CommentFc({item = [], id, currentUser}) {
+function CommentFc({
+  item = [],
+  id,
+  currentUser,
+  onCreateComment,
+  onDeleteComment,
+}) {
+  const [currentComment, setCurrentComment] = useState('')
+
+  const onChange = e => {
+    setCurrentComment(e)
+  }
+
+  const onCreatePress = () => {
+    onCreateComment(currentComment)
+    setCurrentComment('')
+  }
+
   function LoadComment({list}) {
     return (
       <View style={styles.eachCommentContainer}>
         <Text>{list.comment}</Text>
-        <TouchableOpacity style={{right: 10, position: 'absolute'}}>
+        <TouchableOpacity
+          onPress={() => onDeleteComment(list.id)}
+          style={{right: 10, position: 'absolute'}}>
           <View style={styles.completeCircle}>
             <Icon name="close" size={30} />
           </View>
@@ -103,8 +122,13 @@ function CommentFc({item = [], id, currentUser}) {
       ))}
 
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="댓글을 입력해주세요." />
-        <TouchableOpacity style={{marginLeft: 10}}>
+        <TextInput
+          onChangeText={e => onChange(e)}
+          style={styles.input}
+          placeholder="댓글을 입력해주세요."
+          value={currentComment}
+        />
+        <TouchableOpacity onPress={onCreatePress} style={{marginLeft: 10}}>
           <View style={styles.completeCircle}>
             <Icon name="enter" size={30} />
           </View>
@@ -124,6 +148,7 @@ function EachTourList({navigation, id, currentUser}) {
   })
   const [modalOn, setModalOn] = useState(false)
   const [mapOn, setMapOn] = useState(false)
+  const [commentList, setCommentList] = useState([])
 
   const onModal = () => {
     setModalOn(true)
@@ -141,6 +166,7 @@ function EachTourList({navigation, id, currentUser}) {
     async function fetchData() {
       const response = await axios.get(`http://3.38.244.119:3000/tour/${id}`)
       setItem(response.data.tourDetail)
+      setCommentList(response.data.tourDetail.comments)
       setRegion({
         latitude: response.data.tourDetail.geo_x,
         longitude: response.data.tourDetail.geo_y,
@@ -150,6 +176,48 @@ function EachTourList({navigation, id, currentUser}) {
     }
     fetchData()
   }, [id])
+
+  const onCreateComment = currentComment => {
+    if (currentComment == '') {
+      Alert.alert('댓글을 입력해주세요.')
+    } else {
+      axios
+        .post(
+          `http://3.38.244.119:3000/comment`,
+          {
+            tid: id,
+            comment: currentComment,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`,
+            },
+          },
+        )
+        .then(response => {
+          setCommentList([...commentList, response.data.comment])
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+  }
+
+  const onDeleteComment = commentId => {
+    axios
+      .delete(`http://3.38.244.119:3000/comment/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+      })
+      .then(() => {
+        Alert.alert('댓글이 삭제되었습니다.')
+        setCommentList(commentList.filter(item => item.id !== commentId))
+      })
+      .catch(e => {
+        Alert.alert(e.response.data.message)
+      })
+  }
 
   useEffect(() => {
     return () => setModalOn(false)
@@ -196,7 +264,13 @@ function EachTourList({navigation, id, currentUser}) {
             <Text> {item.addressDetail}</Text>
           </View>
 
-          <CommentFc item={item.comments} id={id} currentUser={currentUser} />
+          <CommentFc
+            onCreateComment={onCreateComment}
+            item={commentList}
+            id={id}
+            currentUser={currentUser}
+            onDeleteComment={onDeleteComment}
+          />
         </ScrollView>
 
         <TouchableOpacity

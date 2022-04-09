@@ -76,6 +76,7 @@ function SignUpScreen({navigation}) {
           placeholder="password"
           value={passwd}
           onChange={e => onChange('passwd', e)}
+          secureTextEntry
         />
         <TextInput
           style={styles.input}
