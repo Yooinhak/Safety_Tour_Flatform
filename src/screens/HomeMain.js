@@ -77,10 +77,10 @@ function HomeMain({navigation, currentLocal, currentUser}) {
   }
 
   const goTourPress = () => {
-    if (currentUser.user == 'success') {
-      navigation.navigate('TourS', currentUser)
-    } else {
+    if (currentUser.user !== 'success') {
       Alert.alert('로그인을 먼저 해주세요.')
+    } else {
+      navigation.navigate('TourS', currentUser)
     }
   }
 
