@@ -12,6 +12,7 @@ import axios from 'axios'
 import CommonView from './Common/CommonView'
 import CitySelector from './CitySelector'
 import TownSelector from './TownSelector'
+import GeoLocationAPI from './Service/GeoLocationAPI'
 
 const SK_API_KEY = 'l7xxa74a5d7d8724435da2db516737edde0d'
 
@@ -124,6 +125,10 @@ function HomeMain({navigation, currentLocal, currentUser}) {
             <Text>선택</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.line} />
+
+        <GeoLocationAPI />
 
         <View style={styles.line} />
 

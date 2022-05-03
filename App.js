@@ -53,7 +53,7 @@ function TourListScreen({navigation, route}) {
     <TourList
       currentLocal={currentLocal}
       navigation={navigation}
-      currentUser={route.params}
+      currentUser={route.params.currentUser}
     />
   )
 }
@@ -110,7 +110,7 @@ function TourListTabScreen({route}) {
       <Tab.Screen
         name="Tour"
         component={TourListScreen}
-        initialParams={currentUser}
+        initialParams={{currentUser: currentUser}}
       />
       <Tab.Screen
         name="EachTour"
