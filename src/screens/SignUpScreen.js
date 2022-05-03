@@ -38,7 +38,7 @@ function SignUpScreen({navigation}) {
 
   const handleSignUp = () => {
     axios
-      .post('http://3.38.244.119:3000/auth/signup', {
+      .post('http://13.125.77.122:3000/auth/signup', {
         email: user.email,
         passwd: user.passwd,
         name: user.name,

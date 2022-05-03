@@ -71,7 +71,7 @@ function LoginScreen({navigation}) {
 
   const handleLogin = async () => {
     await axios
-      .post('http://3.38.244.119:3000/auth/login', {
+      .post('http://13.125.77.122:3000/auth/login', {
         email: inputUser.email,
         passwd: inputUser.passwd,
       })

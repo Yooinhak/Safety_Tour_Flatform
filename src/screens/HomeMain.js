@@ -20,7 +20,7 @@ function LikeList({navigation, currentUser}) {
 
   useEffect(() => {
     axios
-      .get(`http://3.38.244.119:3000/like/`, {
+      .get(`http://13.125.77.122:3000/like/`, {
         headers: {
           Authorization: `Bearer ${currentUser.token}`,
         },

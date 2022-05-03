@@ -19,7 +19,7 @@ function TourListSetting({currentLocal, navigation, currentUser}) {
 
   useEffect(() => {
     async function fetchData() {
-      const result = await axios.post('http://3.38.244.119:3000/tour', {
+      const result = await axios.post('http://13.125.77.122:3000/tour', {
         city: currentLocal.city,
         town: currentLocal.town,
       })

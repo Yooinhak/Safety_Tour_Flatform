@@ -23,7 +23,7 @@ function LikeOn({id, currentUser}) {
   useEffect(() => {
     setLikeOn('heart-outline')
     axios
-      .get(`http://3.38.244.119:3000/like/`, {
+      .get(`http://13.125.77.122:3000/like/`, {
         headers: {
           Authorization: `Bearer ${currentUser.token}`,
         },
@@ -42,7 +42,7 @@ function LikeOn({id, currentUser}) {
   const onClick = () => {
     if (likeOn == 'heart-outline') {
       axios
-        .get(`http://3.38.244.119:3000/like/${id}`, {
+        .get(`http://13.125.77.122:3000/like/${id}`, {
           headers: {
             Authorization: `Bearer ${currentUser.token}`,
           },
@@ -56,7 +56,7 @@ function LikeOn({id, currentUser}) {
         })
     } else {
       axios
-        .delete(`http://3.38.244.119:3000/like/${id}`, {
+        .delete(`http://13.125.77.122:3000/like/${id}`, {
           headers: {
             Authorization: `Bearer ${currentUser.token}`,
           },
@@ -164,7 +164,7 @@ function EachTourList({navigation, id, currentUser}) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(`http://3.38.244.119:3000/tour/${id}`)
+      const response = await axios.get(`http://13.125.77.122:3000/tour/${id}`)
       setItem(response.data.tourDetail)
       setCommentList(response.data.tourDetail.comments)
       setRegion({
@@ -183,7 +183,7 @@ function EachTourList({navigation, id, currentUser}) {
     } else {
       axios
         .post(
-          `http://3.38.244.119:3000/comment`,
+          `http://13.125.77.122:3000/comment`,
           {
             tid: id,
             comment: currentComment,
@@ -205,7 +205,7 @@ function EachTourList({navigation, id, currentUser}) {
 
   const onDeleteComment = commentId => {
     axios
-      .delete(`http://3.38.244.119:3000/comment/${commentId}`, {
+      .delete(`http://13.125.77.122:3000/comment/${commentId}`, {
         headers: {
           Authorization: `Bearer ${currentUser.token}`,
         },
