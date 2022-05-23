@@ -128,23 +128,6 @@ function HomeMain({navigation, currentLocal, currentUser}) {
 
         <View style={styles.line} />
 
-        <GeoLocationAPI />
-
-        <View style={styles.line} />
-
-        {currentUser.user == 'success' ? (
-          <>
-            <View style={styles.favoritesContainer}>
-              <Text style={{marginLeft: '3%'}}>즐겨찾는 관광지</Text>
-              <LikeList navigation={navigation} currentUser={currentUser} />
-            </View>
-
-            <View style={styles.line} />
-          </>
-        ) : (
-          <></>
-        )}
-
         <View style={styles.covidInfoContainer}>
           <View style={styles.covidInfoTitle}>
             <Text style={{fontSize: 15}}>국내 코로나19 현황</Text>
@@ -168,6 +151,23 @@ function HomeMain({navigation, currentLocal, currentUser}) {
         </View>
 
         <View style={styles.line} />
+
+        {currentUser.user == 'success' ? (
+          <>
+            <GeoLocationAPI navigation={navigation} currentUser={currentUser} />
+
+            <View style={styles.line} />
+
+            <View style={styles.favoritesContainer}>
+              <Text style={{marginLeft: '3%'}}>즐겨찾는 관광지</Text>
+              <LikeList navigation={navigation} currentUser={currentUser} />
+            </View>
+
+            <View style={styles.line} />
+          </>
+        ) : (
+          <></>
+        )}
       </ScrollView>
 
       {currentUser.user !== 'success' ? (

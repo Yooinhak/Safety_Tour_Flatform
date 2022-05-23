@@ -45,8 +45,13 @@ export default function SKService({locCode = 4571040024, region, onModal}) {
       .catch(e => {
         console.log(e)
       })
-    return () => {}
-  }, [locCode, region])
+  }, [locCode])
+
+  useEffect(() => {
+    return () => {
+      setCovidInfo({})
+    }
+  }, [])
 
   // useEffect(() => {
   //     async function fetchData() {
