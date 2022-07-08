@@ -41,3 +41,5 @@ Back-end : 김민지
 - 댓글 달기 기능
 
 <img width="621" alt="스크린샷 2022-07-08 오후 5 37 34" src="https://user-images.githubusercontent.com/57799598/177956577-3d127e63-fcd5-4c89-a974-6b31702b8fce.png">
+
+![화면_기록_2022-07-08_오후_5_53_17_AdobeExpress](https://user-images.githubusercontent.com/57799598/177960594-44b6b730-c8ec-4a41-9f71-0cd3dbeaa055.gif)
