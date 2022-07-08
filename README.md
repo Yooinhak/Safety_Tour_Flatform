@@ -17,6 +17,7 @@ Back-end : 김민지
 <h2>🚀 구현 기능</h2>
 
 <p>
+ 
  ![회원가입_AdobeExpress](https://user-images.githubusercontent.com/57799598/177950875-09221879-42ad-41de-af39-4db9056793a8.gif)
 
 - 회원가입
