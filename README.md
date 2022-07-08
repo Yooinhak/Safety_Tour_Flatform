@@ -33,4 +33,10 @@ Back-end : 김민지
 
 ![홈기능_AdobeExpress](https://user-images.githubusercontent.com/57799598/177951298-e415437d-694d-479b-b9be-855547f87613.gif)
 
+- 상세화면
+- 즐겨찾기 기능
+- 코로나 안전 지수에 대한 설명창
+- 지도 보기 기능
+- 댓글 달기 기능
+
 <img width="621" alt="스크린샷 2022-07-08 오후 5 37 34" src="https://user-images.githubusercontent.com/57799598/177956577-3d127e63-fcd5-4c89-a974-6b31702b8fce.png">
