@@ -20,15 +20,17 @@ Back-end : 김민지
 
 ![회원가입_AdobeExpress](https://user-images.githubusercontent.com/57799598/177950875-09221879-42ad-41de-af39-4db9056793a8.gif)
 
-![로그인_AdobeExpress](https://user-images.githubusercontent.com/57799598/177950982-80e5c3f5-40db-405c-955c-b3cb4a8bb671.gif)
-
 - 로그인
 
-![홈_AdobeExpress](https://user-images.githubusercontent.com/57799598/177951141-7cda0b24-d8df-4e21-90f8-53179998a48e.gif)
+![로그인_AdobeExpress](https://user-images.githubusercontent.com/57799598/177950982-80e5c3f5-40db-405c-955c-b3cb4a8bb671.gif)
 
 - 홈
 
-![홈기능_AdobeExpress](https://user-images.githubusercontent.com/57799598/177951298-e415437d-694d-479b-b9be-855547f87613.gif)
+![홈_AdobeExpress](https://user-images.githubusercontent.com/57799598/177951141-7cda0b24-d8df-4e21-90f8-53179998a48e.gif)
 
 - 위치 정보 받아오기 -> 위치 기반으로 관광지 목로 표시
 - 사용자 즐겨찾기 기능
+
+![홈기능_AdobeExpress](https://user-images.githubusercontent.com/57799598/177951298-e415437d-694d-479b-b9be-855547f87613.gif)
+
+<img width="621" alt="스크린샷 2022-07-08 오후 5 37 34" src="https://user-images.githubusercontent.com/57799598/177956577-3d127e63-fcd5-4c89-a974-6b31702b8fce.png">
